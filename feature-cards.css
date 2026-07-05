@@ -14,61 +14,146 @@
 
 .feature-card {
     background: rgba(255, 255, 255, 0.02) !important;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     border: 1px solid rgba(255, 255, 255, 0.05) !important;
-    border-radius: 16px !important;
+    border-radius: 20px !important;
     padding: 25px !important;
     text-align: left !important;
-    transition: all 0.4s ease !important;
-    box-shadow: none !important;
+    transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), border-color 0.4s ease, box-shadow 0.4s ease !important;
+    box-shadow: 0 10px 30px -15px rgba(2, 12, 27, 0.3) !important;
     position: relative;
     overflow: hidden;
+    cursor: pointer;
 }
 
-/* Remove old pseudo-elements if any */
+/* Mouse spotlight glow reflection overlay */
+.feature-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle 200px at var(--mouse-x, 0) var(--mouse-y, 0), rgba(255, 255, 255, 0.04), transparent 75%);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s;
+    z-index: 1;
+}
+
+.feature-card:hover::after {
+    opacity: 1;
+}
+
 .feature-card::before {
     display: none !important;
 }
 
+/* Default Hover state */
 .feature-card:hover {
     transform: translateY(-5px) !important;
-    background: rgba(255, 255, 255, 0.05) !important;
+    background: rgba(255, 255, 255, 0.04) !important;
     border-color: var(--accent) !important;
-    box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.5) !important;
+    box-shadow: 0 15px 35px -10px rgba(0, 0, 0, 0.5), 0 0 20px var(--accent-glow) !important;
+}
+
+/* Custom Hover states based on theme classes */
+.feature-card.card-purple:hover {
+    border-color: #bd34fe !important;
+    box-shadow: 0 15px 35px -10px rgba(0, 0, 0, 0.5), 0 0 20px rgba(189, 52, 254, 0.25) !important;
+}
+
+.feature-card.card-green:hover {
+    border-color: #10b981 !important;
+    box-shadow: 0 15px 35px -10px rgba(0, 0, 0, 0.5), 0 0 20px rgba(16, 185, 129, 0.25) !important;
+}
+
+.feature-card.card-yellow:hover {
+    border-color: #ffd93d !important;
+    box-shadow: 0 15px 35px -10px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 217, 61, 0.25) !important;
+}
+
+.feature-card.card-red:hover {
+    border-color: #ff6b6b !important;
+    box-shadow: 0 15px 35px -10px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 107, 107, 0.25) !important;
+}
+
+.feature-card.card-blue:hover {
+    border-color: #3b82f6 !important;
+    box-shadow: 0 15px 35px -10px rgba(0, 0, 0, 0.5), 0 0 20px rgba(59, 130, 246, 0.25) !important;
 }
 
 .feature-icon {
     width: 45px !important;
     height: 45px !important;
-    margin: 0 0 15px 0 !important;
+    margin: 0 0 18px 0 !important;
     border-radius: 12px !important;
-    background: rgba(100, 255, 218, 0.1) !important;
-    font-size: 1.2rem !important;
+    background: var(--accent-glow) !important;
+    font-size: 1.25rem !important;
     color: var(--accent) !important;
     box-shadow: none !important;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
+    transition: all 0.4s ease !important;
+    position: relative;
+    z-index: 2;
 }
 
 .feature-card:hover .feature-icon {
-    transform: scale(1.1) !important;
+    transform: scale(1.1) translateY(-2px) !important;
     background: var(--accent) !important;
     color: var(--bg-dark) !important;
-    box-shadow: 0 0 20px rgba(100, 255, 218, 0.4) !important;
+    box-shadow: 0 0 20px var(--accent-glow-strong) !important;
+}
+
+/* Custom Icon Hover States */
+.feature-card.card-purple:hover .feature-icon {
+    background: #bd34fe !important;
+    color: #fff !important;
+    box-shadow: 0 0 20px rgba(189, 52, 254, 0.5) !important;
+}
+
+.feature-card.card-green:hover .feature-icon {
+    background: #10b981 !important;
+    color: #fff !important;
+    box-shadow: 0 0 20px rgba(16, 185, 129, 0.5) !important;
+}
+
+.feature-card.card-yellow:hover .feature-icon {
+    background: #ffd93d !important;
+    color: #0a192f !important;
+    box-shadow: 0 0 20px rgba(255, 217, 61, 0.5) !important;
+}
+
+.feature-card.card-red:hover .feature-icon {
+    background: #ff6b6b !important;
+    color: #fff !important;
+    box-shadow: 0 0 20px rgba(255, 107, 107, 0.5) !important;
+}
+
+.feature-card.card-blue:hover .feature-icon {
+    background: #3b82f6 !important;
+    color: #fff !important;
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.5) !important;
 }
 
 .feature-card h3 {
     text-align: left !important;
-    font-size: 1.1rem !important;
+    font-size: 1.15rem !important;
     margin-bottom: 8px !important;
     color: var(--text-main) !important;
+    position: relative;
+    z-index: 2;
 }
 
 .feature-card p {
     text-align: left !important;
-    font-size: 0.9rem !important;
+    font-size: 0.92rem !important;
     color: var(--text-muted) !important;
     margin: 0 !important;
+    line-height: 1.5 !important;
+    position: relative;
+    z-index: 2;
 }

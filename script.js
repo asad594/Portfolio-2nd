@@ -1,4 +1,53 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // Welcome Splash Screen Loader
+    const welcomeScreen = document.getElementById('welcome-screen');
+    const welcomeLoaderBar = document.querySelector('.welcome-loader-bar');
+    const welcomeCounter = document.querySelector('.welcome-counter');
+    const welcomeZone = document.querySelector('.welcome-interactive-zone');
+    const enterBtn = document.getElementById('enter-portfolio-btn');
+    
+    if (welcomeScreen && welcomeLoaderBar) {
+        document.body.classList.add('lock-scroll');
+        
+        let progress = 0;
+        const speed = 45; // ~1.5s total load
+        
+        const loadingInterval = setInterval(() => {
+            progress += 3;
+            if (progress > 100) progress = 100;
+            
+            welcomeLoaderBar.style.width = `${progress}%`;
+            if (welcomeCounter) {
+                welcomeCounter.innerText = `${progress.toString().padStart(2, '0')}%`;
+            }
+            
+            if (progress >= 100) {
+                clearInterval(loadingInterval);
+                setTimeout(() => {
+                    if (welcomeZone) {
+                        welcomeZone.classList.add('loaded');
+                    }
+                    // Highlight outer scanning ring solid on completion
+                    const outerRing = document.querySelector('.scanner-outer');
+                    if (outerRing) {
+                        outerRing.style.borderStyle = 'solid';
+                        outerRing.style.borderColor = 'var(--accent)';
+                    }
+                }, 300);
+            }
+        }, speed);
+        
+        if (enterBtn) {
+            enterBtn.addEventListener('click', () => {
+                welcomeScreen.classList.add('exit');
+                setTimeout(() => {
+                    welcomeScreen.style.display = 'none';
+                    document.body.classList.remove('lock-scroll');
+                }, 900);
+            });
+        }
+    }
+
     // Scroll Animations
     const observerOptions = {
         root: null,
@@ -18,26 +67,23 @@ document.addEventListener('DOMContentLoaded', () => {
     const fadeElements = document.querySelectorAll('.fade-in-on-scroll');
     fadeElements.forEach(el => observer.observe(el));
 
-    // Custom Cursor (Optional - Simple implementation)
+    // Custom Cursor
     const cursor = document.querySelector('.custom-cursor');
-    // Check if device has mouse
-    if (window.matchMedia("(pointer: fine)").matches) {
+    if (window.matchMedia("(pointer: fine)").matches && cursor) {
         cursor.style.display = 'block';
         document.addEventListener('mousemove', (e) => {
             cursor.style.left = e.clientX + 'px';
             cursor.style.top = e.clientY + 'px';
         });
 
-        // Add hover effect to links
-        const links = document.querySelectorAll('a, button, .project-card, .skill-item');
-        links.forEach(link => {
-            link.addEventListener('mouseenter', () => {
-                cursor.style.transform = 'translate(-50%, -50%) scale(1.5)';
-                cursor.style.backgroundColor = 'rgba(100, 255, 218, 0.1)';
+        // Add hover effect to interactive items
+        const hoverables = document.querySelectorAll('a, button, .portfolio-box, .skill-item, .color-dot');
+        hoverables.forEach(item => {
+            item.addEventListener('mouseenter', () => {
+                cursor.classList.add('hovered');
             });
-            link.addEventListener('mouseleave', () => {
-                cursor.style.transform = 'translate(-50%, -50%) scale(1)';
-                cursor.style.backgroundColor = 'transparent';
+            item.addEventListener('mouseleave', () => {
+                cursor.classList.remove('hovered');
             });
         });
     }
@@ -94,6 +140,190 @@ document.addEventListener('DOMContentLoaded', () => {
             behavior: 'smooth'
         });
     });
+
+    // Scroll Progress Bar
+    const scrollProgress = document.getElementById('scroll-progress');
+    if (scrollProgress) {
+        window.addEventListener('scroll', () => {
+            const winScroll = document.documentElement.scrollTop || document.body.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = height > 0 ? (winScroll / height) * 100 : 0;
+            scrollProgress.style.width = scrolled + '%';
+        });
+    }
+
+    // Theme Accent Switcher Logic
+    const themeBtn = document.querySelector('.theme-btn');
+    const themePalette = document.querySelector('.theme-palette');
+    const colorDots = document.querySelectorAll('.color-dot');
+
+    if (themeBtn && themePalette) {
+        themeBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            themePalette.classList.toggle('active');
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!themeBtn.contains(e.target) && !themePalette.contains(e.target)) {
+                themePalette.classList.remove('active');
+            }
+        });
+    }
+
+    if (colorDots.length > 0) {
+        colorDots.forEach(dot => {
+            dot.addEventListener('click', () => {
+                const color = dot.getAttribute('data-color');
+                
+                if (color === 'teal') {
+                    document.documentElement.removeAttribute('data-theme');
+                } else {
+                    document.documentElement.setAttribute('data-theme', color);
+                }
+
+                colorDots.forEach(d => d.classList.remove('active'));
+                dot.classList.add('active');
+
+                localStorage.setItem('portfolio-theme', color);
+            });
+        });
+
+        // Load saved theme
+        const savedTheme = localStorage.getItem('portfolio-theme');
+        if (savedTheme) {
+            const activeDot = document.querySelector(`.color-dot[data-color="${savedTheme}"]`);
+            if (activeDot) {
+                // Remove active class from all first
+                colorDots.forEach(d => d.classList.remove('active'));
+                activeDot.classList.add('active');
+                if (savedTheme === 'teal') {
+                    document.documentElement.removeAttribute('data-theme');
+                } else {
+                    document.documentElement.setAttribute('data-theme', savedTheme);
+                }
+            }
+        }
+    }
+
+    // 3D Hover Tilt & Spotlight effect
+    const tiltCards = document.querySelectorAll('.portfolio-box, .skill-category, .feature-card');
+    tiltCards.forEach(card => {
+        card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            card.style.setProperty('--mouse-x', `${x}px`);
+            card.style.setProperty('--mouse-y', `${y}px`);
+
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            const tiltX = (centerY - y) / 15;
+            const tiltY = (x - centerX) / 15;
+
+            card.style.transform = `perspective(1000px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) translateY(-5px)`;
+        });
+
+        card.addEventListener('mouseleave', () => {
+            card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0px)';
+        });
+    });
+
+    // Magnetic Hover Effect
+    const magneticTargets = document.querySelectorAll('.magnetic-target');
+    magneticTargets.forEach(target => {
+        target.addEventListener('mousemove', (e) => {
+            const rect = target.getBoundingClientRect();
+            const x = e.clientX - rect.left - rect.width / 2;
+            const y = e.clientY - rect.top - rect.height / 2;
+            
+            target.style.transform = `translate(${x * 0.35}px, ${y * 0.35}px)`;
+        });
+
+        target.addEventListener('mouseleave', () => {
+            target.style.transform = 'translate(0px, 0px)';
+        });
+    });
+
+    // ==========================================
+    // Full-page Mouse Spotlight Glow Tracking
+    // ==========================================
+    document.addEventListener('mousemove', (e) => {
+        document.documentElement.style.setProperty('--mouse-bg-x', `${e.clientX}px`);
+        document.documentElement.style.setProperty('--mouse-bg-y', `${e.clientY}px`);
+    });
+
+    // ==========================================
+    // Project Category Filtering
+    // ==========================================
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const projectCards = document.querySelectorAll('.portfolio-box');
+
+    if (filterBtns.length > 0 && projectCards.length > 0) {
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                const filter = btn.getAttribute('data-filter');
+
+                projectCards.forEach(card => {
+                    const categories = card.getAttribute('data-category').split(' ');
+                    
+                    if (filter === 'all' || categories.includes(filter)) {
+                        card.classList.remove('hide');
+                        requestAnimationFrame(() => {
+                            card.classList.remove('fade-out');
+                        });
+                    } else {
+                        card.classList.add('fade-out');
+                        setTimeout(() => {
+                            if (card.classList.contains('fade-out')) {
+                                card.classList.add('hide');
+                            }
+                        }, 300);
+                    }
+                });
+            });
+        });
+    }
+
+    // ==========================================
+    // Auto-Typing Hero Subtitle Animation
+    // ==========================================
+    const typedTextSpan = document.querySelector('.typed-text');
+    if (typedTextSpan) {
+        const textArray = ["Python, Java & C#", "Modern Web Frameworks", "Object-Oriented Programming", "Scalable Database Architectures"];
+        const typingSpeed = 100;
+        const erasingSpeed = 60;
+        const newTextDelay = 2000;
+        let textArrayIndex = 0;
+        let charIndex = 0;
+
+        function type() {
+            if (charIndex < textArray[textArrayIndex].length) {
+                typedTextSpan.textContent += textArray[textArrayIndex].charAt(charIndex);
+                charIndex++;
+                setTimeout(type, typingSpeed);
+            } else {
+                setTimeout(erase, newTextDelay);
+            }
+        }
+
+        function erase() {
+            if (charIndex > 0) {
+                typedTextSpan.textContent = textArray[textArrayIndex].substring(0, charIndex - 1);
+                charIndex--;
+                setTimeout(erase, erasingSpeed);
+            } else {
+                textArrayIndex++;
+                if (textArrayIndex >= textArray.length) textArrayIndex = 0;
+                setTimeout(type, typingSpeed + 500);
+            }
+        }
+
+        setTimeout(type, 1000);
+    }
 });
 
 // Skill Detail Modal Logic
@@ -197,4 +427,26 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
 })();
+
+// Hamburger Menu Logic
+document.addEventListener('DOMContentLoaded', () => {
+    const hamburger = document.querySelector('.hamburger');
+    const navLinks = document.querySelector('.nav-links');
+    const navItems = document.querySelectorAll('.nav-links li a');
+
+    if (hamburger && navLinks) {
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navLinks.classList.toggle('active');
+        });
+
+        // Close menu when a link is clicked
+        navItems.forEach(item => {
+            item.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                navLinks.classList.remove('active');
+            });
+        });
+    }
+});
 
