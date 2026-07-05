@@ -10,10 +10,10 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.classList.add('lock-scroll');
         
         let progress = 0;
-        const speed = 45; // ~1.5s total load
+        const speed = 10; // Fast load
         
         const loadingInterval = setInterval(() => {
-            progress += 3;
+            progress += 15;
             if (progress > 100) progress = 100;
             
             welcomeLoaderBar.style.width = `${progress}%`;
@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 setTimeout(() => {
                     welcomeScreen.style.display = 'none';
                     document.body.classList.remove('lock-scroll');
-                }, 900);
+                }, 400); // reduced from 900 for faster scroll unlock
             });
         }
     }
@@ -67,26 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const fadeElements = document.querySelectorAll('.fade-in-on-scroll');
     fadeElements.forEach(el => observer.observe(el));
 
-    // Custom Cursor
-    const cursor = document.querySelector('.custom-cursor');
-    if (window.matchMedia("(pointer: fine)").matches && cursor) {
-        cursor.style.display = 'block';
-        document.addEventListener('mousemove', (e) => {
-            cursor.style.left = e.clientX + 'px';
-            cursor.style.top = e.clientY + 'px';
-        });
-
-        // Add hover effect to interactive items
-        const hoverables = document.querySelectorAll('a, button, .portfolio-box, .skill-item, .color-dot');
-        hoverables.forEach(item => {
-            item.addEventListener('mouseenter', () => {
-                cursor.classList.add('hovered');
-            });
-            item.addEventListener('mouseleave', () => {
-                cursor.classList.remove('hovered');
-            });
-        });
-    }
+    // Custom Cursor removed for performance and usability
 
     // Navbar Scroll Effect (optional, adding shadow)
     const navbar = document.querySelector('.navbar');
