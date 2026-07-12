@@ -349,27 +349,25 @@
   // 1. Lenis Smooth Scroll Initialization
   if (typeof Lenis !== 'undefined') {
     const lenis = new Lenis({
-      duration: 1.1,
+      duration: 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       smoothWheel: true,
       touchMultiplier: 1.5,
       infinite: false
     });
 
-    // Unify scroll loop and prevent duplicate ticks
-    if (typeof ScrollTrigger !== 'undefined' && typeof gsap !== 'undefined') {
-      lenis.on('scroll', ScrollTrigger.update);
-      gsap.ticker.add((time) => {
-        lenis.raf(time * 1000);
-      });
-      gsap.ticker.lagSmoothing(0);
-    } else {
-      const raf = (time) => {
-        lenis.raf(time);
-        requestAnimationFrame(raf);
-      };
+    // Standard Lenis scroll handler to update ScrollTrigger
+    lenis.on('scroll', () => {
+      if (typeof ScrollTrigger !== 'undefined') {
+        ScrollTrigger.update();
+      }
+    });
+
+    const raf = (time) => {
+      lenis.raf(time);
       requestAnimationFrame(raf);
-    }
+    };
+    requestAnimationFrame(raf);
   }
 
   // 2. Custom Animated & Interactive Cursor
