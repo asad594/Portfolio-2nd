@@ -355,19 +355,20 @@
       touchMultiplier: 1.5,
       infinite: false
     });
-    const raf = (time) => {
-      lenis.raf(time);
-      requestAnimationFrame(raf);
-    };
-    requestAnimationFrame(raf);
 
-    // Sync Lenis with GSAP ScrollTrigger
-    if (typeof ScrollTrigger !== 'undefined') {
+    // Unify scroll loop and prevent duplicate ticks
+    if (typeof ScrollTrigger !== 'undefined' && typeof gsap !== 'undefined') {
       lenis.on('scroll', ScrollTrigger.update);
       gsap.ticker.add((time) => {
         lenis.raf(time * 1000);
       });
       gsap.ticker.lagSmoothing(0);
+    } else {
+      const raf = (time) => {
+        lenis.raf(time);
+        requestAnimationFrame(raf);
+      };
+      requestAnimationFrame(raf);
     }
   }
 
@@ -510,7 +511,8 @@
       });
     });
   };
-  if (!reducedMotion) {
+  const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+  if (!reducedMotion && !isTouchDevice && window.innerWidth >= 768) {
     init3dTilt();
     // Re-bind when filters hide/show elements or load extra projects
     const showMoreBtn = document.querySelector('.show-more');
@@ -536,25 +538,17 @@
   let speakMouthInterval = null;
   let ctaTimeout = null;
 
-  // Initialize CTA buttons to hidden state
+  // Initialize CTA buttons to visible state immediately for better load performance
   if (heroActions) {
-    heroActions.style.opacity = '0';
-    heroActions.style.transform = 'translateY(15px)';
-    heroActions.style.pointerEvents = 'none';
+    heroActions.style.opacity = '1';
+    heroActions.style.transform = 'translateY(0)';
+    heroActions.style.pointerEvents = 'auto';
     heroActions.style.transition = 'opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1), transform 0.8s cubic-bezier(0.25, 1, 0.5, 1)';
   }
 
   const revealCTA = () => {
     if (ctaTimeout) window.clearTimeout(ctaTimeout);
-    if (heroActions) {
-      heroActions.style.opacity = '1';
-      heroActions.style.transform = 'translateY(0)';
-      heroActions.style.pointerEvents = 'auto';
-    }
   };
-
-  // Safe timeout to show CTAs automatically if user doesn't interact within 6 seconds
-  ctaTimeout = window.setTimeout(revealCTA, 6000);
 
   const startMouthSync = () => {
     const mouth = document.getElementById('avatar-mouth');
@@ -1222,7 +1216,9 @@
     
     const initList = () => {
       particles = [];
-      const quantity = Math.min(Math.floor((canvas.width * canvas.height) / 14000), 100);
+      const isMobile = window.innerWidth < 768;
+      const density = isMobile ? 32000 : 16000;
+      const quantity = Math.min(Math.floor((canvas.width * canvas.height) / density), isMobile ? 30 : 70);
       for (let i = 0; i < quantity; i++) {
         particles.push(new Particle());
       }
@@ -1233,6 +1229,8 @@
     const connect = () => {
       const isLight = document.body.classList.contains('light');
       const lineColor = isLight ? 'rgba(13, 159, 112, ' : 'rgba(124, 231, 194, ';
+      const isMobile = window.innerWidth < 768;
+      const maxDist = isMobile ? 85 : 100;
       
       for (let a = 0; a < particles.length; a++) {
         for (let b = a + 1; b < particles.length; b++) {
@@ -1240,8 +1238,8 @@
           const dy = particles[a].y - particles[b].y;
           const dist = Math.sqrt(dx * dx + dy * dy);
           
-          if (dist < 110) {
-            const alpha = (1 - dist / 110) * 0.12;
+          if (dist < maxDist) {
+            const alpha = (1 - dist / maxDist) * 0.12;
             ctx.strokeStyle = lineColor + alpha + ')';
             ctx.lineWidth = 0.8;
             ctx.beginPath();

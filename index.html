@@ -11,21 +11,7 @@
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" referrerpolicy="no-referrer">
   <link rel="stylesheet" href="style.css">
-  <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          borderRadius: {
-            '2xl': '1rem',
-            '3xl': '1.5rem',
-          }
-        }
-      }
-    }
-  </script>
+
   <!-- Lenis & GSAP CDN -->
   <script src="https://unpkg.com/lenis@1.1.9/dist/lenis.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
@@ -50,7 +36,7 @@
     <div class="welcome-content">
       <div class="avatar-stage" id="avatar-stage">
         <span class="avatar-ring avatar-ring-one"></span><span class="avatar-ring avatar-ring-two"></span><span class="avatar-ring avatar-ring-three"></span>
-        <div class="avatar-image flex items-center justify-center bg-[#1e293b] overflow-hidden rounded-full border-[5px] border-[#e7fff5]">
+        <div class="avatar-image">
           <svg class="avatar-character-svg w-full h-full overflow-visible" id="welcome-avatar-svg" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
             <defs>
               <filter id="patch-blur-welcome">
@@ -126,17 +112,17 @@
           </div>
         </div>
         <div class="hero-visual" data-reveal>
-          <div class="avatar-stage-wrapper relative w-full flex flex-col items-center justify-center p-3">
+          <div class="avatar-stage-wrapper">
             <!-- Glowing aura behind portrait -->
             <div class="avatar-aura-glow" aria-hidden="true"></div>
 
             <!-- Profile Portrait Frame (Tilts on mousemove) -->
-            <div class="portrait-frame relative w-full aspect-square max-w-[280px] rounded-2xl overflow-hidden border border-white/10 group flex items-center justify-center z-10" id="hero-portrait-frame" style="transform-origin: center center;">
+            <div class="portrait-frame" id="hero-portrait-frame" style="transform-origin: center center;">
               <!-- Glow overlay on hover -->
-              <div class="absolute inset-0 bg-gradient-to-tr from-emerald-500/10 via-blue-500/10 to-purple-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10 pointer-events-none"></div>
+              <div class="portrait-glow"></div>
               
               <!-- Real photo of Muhammad Asad -->
-              <img src="profile.jpg" alt="Muhammad Asad" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" id="hero-profile-image">
+              <img src="profile.jpg" alt="Muhammad Asad" id="hero-profile-image">
               
               <!-- Corner accents -->
               <div class="portrait-corner corner-a"></div><div class="portrait-corner corner-b"></div>
@@ -151,12 +137,12 @@
             </div>
 
             <!-- Subtitles/Captions synced reveal overlay -->
-            <div class="avatar-captions-container mt-3">
+            <div class="avatar-captions-container">
               <p class="avatar-captions" id="avatar-captions">Hear my audio introduction...</p>
             </div>
 
             <!-- Controls bar -->
-            <div class="avatar-controls mt-2 flex items-center justify-center gap-3">
+            <div class="avatar-controls">
               <button class="avatar-btn avatar-btn-play" id="avatar-btn-play" type="button" aria-label="Play introduction">
                 <i class="fa-solid fa-volume-high"></i> Play Intro
               </button>
@@ -545,7 +531,7 @@
               </div>
               
               <div class="form-btn-wrapper">
-                <button type="submit" class="button button-primary w-full sm:w-auto" id="form-submit-btn">
+                <button type="submit" class="button button-primary" id="form-submit-btn">
                   <span>Send Message</span>
                   <i class="fa-solid fa-paper-plane" style="margin-left: 5px;"></i>
                 </button>
