@@ -327,10 +327,8 @@
   
   enterButton?.addEventListener('click', () => {
     playChime();
+    playAvatarIntro(); // Trigger voice immediately for iOS Safari compatibility
     closeWelcome();
-    window.setTimeout(() => {
-      playAvatarIntro();
-    }, 750);
   });
 
   skipButton?.addEventListener('click', () => {
