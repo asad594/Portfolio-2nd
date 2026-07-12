@@ -1,0 +1,75 @@
+/* ============================================
+   POLISH & REFINEMENT LAYER
+   Loaded after style.css + feature-cards.css.
+   Purpose: fix hierarchy, tone down noisy motion,
+   improve contrast & consistency — without
+   touching the core structure or identity.
+   ============================================ */
+
+/* --- 1. Fix hero hierarchy: name must dominate --- */
+/* Name stays the anchor; specialty line becomes a
+   clear secondary line, not a competing headline. */
+.hero-content h1 {
+    font-size: clamp(2.4rem, 5vw, 3.6rem) !important;
+    white-space: normal !important;
+    letter-spacing: -0.01em;
+}
+
+.hero-content .subtitle {
+    font-size: clamp(1.3rem, 2.4vw, 1.7rem) !important;
+    font-weight: 600 !important;
+    margin-bottom: 22px !important;
+    /* Static gradient instead of infinite marquee shine —
+       reads as an intentional accent, not a distraction. */
+    animation: none !important;
+    background-position: 0% center !important;
+}
+
+/* --- 2. Improve muted text contrast slightly (WCAG-friendlier) --- */
+:root {
+    --text-muted: #9aa6c3;
+}
+
+/* --- 3. Section title: fade divider instead of flat solid line --- */
+.section-title::after {
+    background: linear-gradient(90deg, rgba(100, 255, 218, 0.35), rgba(100, 255, 218, 0)) !important;
+    height: 2px !important;
+}
+
+/* --- 4. Slightly tighter, more deliberate section rhythm --- */
+.section-title {
+    letter-spacing: 0.02em;
+}
+
+/* --- 5. Hero image: remove nonstop float, keep it for a subtler,
+   shorter breathing motion so it doesn't upstage the text --- */
+.hero-image-wrapper {
+    animation-duration: 9s !important;
+}
+
+/* --- 6. Consistent radius language: cards/badges share one soft
+   scale so glass cards, skill badges and project cards feel
+   like one system rather than three separate patterns --- */
+.skill-item,
+.project-tag,
+.skill-badge {
+    border-radius: 10px !important;
+}
+
+/* --- 7. Respect reduced motion preference (accessibility floor) --- */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.001ms !important;
+    }
+}
+
+/* --- 8. Mobile: keep hero name from ever forcing horizontal scroll --- */
+@media (max-width: 480px) {
+    .hero-content h1 {
+        font-size: clamp(2rem, 9vw, 2.6rem) !important;
+    }
+}

@@ -20,10 +20,11 @@ A professional, modern, and fully responsive personal portfolio website designed
 
 1. [🔗 Live Demo](#-live-demo)
 2. [✨ Core Features](#-core-features)
-3. [🏗️ Client-Side Architecture](#%EF%B8%8F-client-side-architecture)
-4. [🖥️ Folder Structure](#%EF%B8%8F-folder-structure)
-5. [⚙️ How to Setup & Run Locally](#%EF%B8%8F-how-to-setup--run-locally)
-6. [📬 Contact & Socials](#-contact)
+3. [🖥️ Selected Projects Showcase](#️-selected-projects-showcase)
+4. [🏗️ Client-Side Architecture](#-client-side-architecture)
+5. [🖥️ Folder Structure](#-folder-structure)
+6. [⚙️ How to Setup & Run Locally](#-how-to-setup--run-locally)
+7. [📬 Contact & Socials](#-contact)
 
 ---
 
@@ -42,6 +43,67 @@ Visit the interactive site live:
 - **📈 Visual Timeline:** An interactive timeline card mapping career highlights and skills.
 - **📄 Resume Integration:** Separate clean viewer page (`resume.html`) with options to instantly download a professional PDF copy.
 - **⚡ Micro-Animations:** Lightweight hover transitions, parallax card depths, and smooth-scrolling event listener intercepts.
+
+---
+
+## 🖥️ Selected Projects Showcase
+
+Here is a curated list of featured projects showcasing different domain areas:
+
+### 1. FoodHeaven POS (Featured)
+*A native restaurant point-of-sale system with live order tracking, analytics, printable invoices, and a PostgreSQL-backed Django architecture.*
+* **Technologies:** Python, Django REST, PostgreSQL, Chart.js
+* **Repo Link:** [Restaurant-POS-system](https://github.com/asad594/Restaurant-POS-system)
+* **Screenshot:**
+  ![FoodHeaven POS](images/restaurant-pos.png)
+
+---
+
+### 2. Algo Puzzle Board
+*An interactive home for sorting, pathfinding, graph algorithms, and classic puzzles with step-by-step visual learning.*
+* **Technologies:** JavaScript, Algorithms, CSS
+* **Repo Link:** [Algo-Puzzle-Board](https://github.com/asad594/Algo-Puzzle-Board)
+* **Screenshot:**
+  ![Algo Puzzle Board](images/algo-puzzle.png)
+
+---
+
+### 3. SkillMesh (Job Ranking)
+*A smart candidate ranking engine using skill matching, experience scores, greedy optimisation, and an explainable max-heap flow.*
+* **Technologies:** Python, DSA, OOP
+* **Repo Link:** [Job-Ranking-System](https://github.com/asad594/Job-Ranking-System)
+* **Screenshot:**
+  ![SkillMesh](images/job-ranking.png)
+
+---
+
+### 4. MIPS Productivity Dashboard
+*A task manager built in MIPS Assembly, with task tracking, calendar views, and direct memory-status updates.*
+* **Technologies:** MIPS Assembly, Architecture
+* **Repo Link:** [Productivity-Dashboard-MIPS-assembly-Language](https://github.com/asad594/Productivity-Dashboard-MIPS-assembly-Language)
+* **Screenshot:**
+  ![MIPS Productivity Dashboard](images/mips-dashboard.png)
+
+---
+
+### 5. SkyBound (Flight Management System)
+*A flight management system designed around MVC-style organisation and reusable domain logic.*
+* **Technologies:** Python, MVC, OOP
+* **Repo Link:** [Flight-Management-System](https://github.com/asad594/Flight-Management-System)
+* **Screenshot:**
+  ![SkyBound](images/flight-system.png)
+
+---
+
+### 💡 Additional Projects
+* **Requirement Genie:** An NLP-driven assistant that structures software requirement gathering and helps generate SRS documentation. *(Python, NLP, Streamlit)* - [Repo Link](https://github.com/asad594/Requirement-Genie)
+  ![Requirement Genie](images/req-genie.png)
+* **Decode & Discover:** A story-led cryptography learning tool that turns encryption and decryption concepts into interactive visual modules. *(JavaScript, Cryptography, CSS)* - [Repo Link](https://github.com/asad594/Decode-And-Discover)
+  ![Decode & Discover](images/decode-discover.png)
+* **Food Heaven:** A responsive restaurant experience with a dynamic menu and table reservation flow. *(JavaScript, Bootstrap, .NET)* - [Repo Link](https://github.com/asad594/Food-Heaven)
+  ![Food Heaven](images/food-heaven.png)
+* **Snake Game:** A polished take on the classic game, featuring live scoring, collision logic, and progressive difficulty. *(Python, OOP, Pygame)* - [Repo Link](https://github.com/asad594/Snake-Game-)
+  ![Snake Game](images/snake-game.png)
 
 ---
 
@@ -92,7 +154,7 @@ flowchart TD
 │   └── banner.png        # Glowing tech banner
 ├── images/               # Project screenshots & decorative SVGs
 ├── profile.jpg           # Header avatar image
-└── resume.pdf            # Printable PDF resume asset
+└── muhammad_Asad_Resume.pdf  # Printable PDF resume asset
 ```
 
 ---
@@ -106,8 +168,8 @@ Since this is a lightweight static site, no external bundlers, package managers,
 #### Option A: Direct Execution
 1. Clone the repository:
    ```bash
-   git clone https://github.com/asad594/My-Portfolio.git
-   cd My-Portfolio
+   git clone https://github.com/asad594/Portfolio-2nd.git
+   cd Portfolio-2nd
    ```
 2. Simply double-click `index.html` or open it directly inside any browser.
 
