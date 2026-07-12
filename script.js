@@ -346,8 +346,9 @@
      PREMIUM GRAPHICS, CURSOR & INTERACTIVITY INTEGRATION
      ======================================================== */
 
-  // 1. Lenis Smooth Scroll Initialization
-  if (typeof Lenis !== 'undefined') {
+  // 1. Lenis Smooth Scroll Initialization (Disabled on touch devices for iPhone/Mobile fluid scrolling)
+  const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+  if (typeof Lenis !== 'undefined' && !isTouchDevice) {
     const lenis = new Lenis({
       duration: 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
@@ -1156,6 +1157,9 @@
 
   // 4. Dynamic Background Particle Web System
   const initParticles = () => {
+    // Disable canvas system on mobile viewports for maximum battery and scrolling performance
+    if (window.innerWidth < 768) return;
+
     const canvas = document.getElementById('particle-field');
     if (!canvas) return;
     

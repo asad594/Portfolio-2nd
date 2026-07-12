@@ -2386,6 +2386,13 @@ body.light .milestone-node.active .node-label {
   }
 }
 
+/* Disable particle field canvas on mobile viewports for rendering performance */
+@media (max-width: 768px) {
+  #particle-field {
+    display: none !important;
+  }
+}
+
 
 
 
