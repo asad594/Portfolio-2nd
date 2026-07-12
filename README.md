@@ -31,7 +31,7 @@ A professional, modern, and fully responsive personal portfolio website designed
 ## 🔗 Live Demo
 
 Visit the interactive site live:  
-👉 **[muhammadasadpportfolio.netlify.app](https://muhammadasadpportfolio.netlify.app/)**
+👉 **[muhammadasadarshadportfolio.netlify.app](https://muhammadasadarshadportfolio.netlify.app/)**
 
 ---
 
