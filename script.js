@@ -8,6 +8,21 @@
 
   /* Theme */
   const themeButton = document.querySelector('.theme-toggle');
+  const getStoredTheme = () => {
+    try {
+      return localStorage.getItem('portfolio-theme');
+    } catch (e) {
+      console.warn('Local storage not accessible:', e);
+      return null;
+    }
+  };
+  const setStoredTheme = (theme) => {
+    try {
+      localStorage.setItem('portfolio-theme', theme);
+    } catch (e) {
+      console.warn('Local storage not writable:', e);
+    }
+  };
   const setTheme = (theme) => {
     const light = theme === 'light';
     body.classList.toggle('light', light);
@@ -17,10 +32,10 @@
       themeButton.setAttribute('aria-label', light ? 'Use dark theme' : 'Use light theme');
     }
   };
-  setTheme(localStorage.getItem('portfolio-theme') || (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark'));
+  setTheme(getStoredTheme() || (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark'));
   themeButton?.addEventListener('click', () => {
     const next = body.classList.contains('light') ? 'dark' : 'light';
-    localStorage.setItem('portfolio-theme', next);
+    setStoredTheme(next);
     setTheme(next);
   });
 
