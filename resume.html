@@ -320,10 +320,89 @@
 
             /* Hide web-only elements if any */
         }
+
+        /* Floating back button style (screen-only) */
+        .back-home-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 100;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 16px;
+            background-color: var(--sidebar-bg);
+            color: #fff !important;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 30px;
+            font-family: var(--font-sans);
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-decoration: none !important;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            transition: all 0.2s ease;
+        }
+
+        .back-home-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+
+        /* Screen responsiveness */
+        @media screen and (max-width: 768px) {
+            body {
+                align-items: stretch;
+                padding-top: 70px; /* Leave space for floating back button on mobile */
+            }
+
+            .back-home-btn {
+                position: absolute;
+                top: 15px;
+                left: 15px;
+            }
+
+            .resume-container {
+                width: 100%;
+                min-height: auto;
+                flex-direction: column;
+                background: var(--main-bg);
+            }
+
+            .left-col {
+                width: 100%;
+                background-color: var(--sidebar-bg);
+                padding: 50px 24px 30px 24px;
+                gap: 25px;
+            }
+
+            .right-col {
+                width: 100%;
+                padding: 40px 24px;
+            }
+
+            .item-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 2px;
+            }
+
+            .item-date {
+                margin-top: 2px;
+            }
+        }
+
+        /* Hide back button when printing */
+        @media print {
+            .back-home-btn {
+                display: none !important;
+            }
+        }
     </style>
 </head>
 
 <body>
+    <a href="index.html" class="back-home-btn"><i class="fa-solid fa-arrow-left"></i> Back to Portfolio</a>
     <div class="resume-container">
         <!-- Sidebar (Left Column) -->
         <div class="left-col">
