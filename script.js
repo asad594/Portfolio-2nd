@@ -523,12 +523,11 @@
       });
     });
   };
-  const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
   if (!reducedMotion && !isTouchDevice && window.innerWidth >= 768) {
     init3dTilt();
     // Re-bind when filters hide/show elements or load extra projects
-    const showMoreBtn = document.querySelector('.show-more');
-    showMoreBtn?.addEventListener('click', () => window.setTimeout(init3dTilt, 100));
+    const showMoreBtnTilt = document.querySelector('.show-more');
+    showMoreBtnTilt?.addEventListener('click', () => window.setTimeout(init3dTilt, 100));
     const filters = document.querySelectorAll('.filter');
     filters.forEach(f => f.addEventListener('click', () => window.setTimeout(init3dTilt, 100)));
   }
@@ -935,12 +934,14 @@
       card.style.transform = 'scale(0.8) translateY(20px)';
 
       setTimeout(() => {
+        card.style.visibility = 'hidden';
         restoreBtn?.classList.add('show');
       }, 300);
     });
 
     // Restore Handler
     restoreBtn?.addEventListener('click', () => {
+      card.style.visibility = 'visible';
       card.style.opacity = '1';
       card.style.pointerEvents = 'auto';
       card.style.transform = 'scale(1) translate3d(0, 0, 0)';
