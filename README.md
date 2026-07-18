@@ -154,7 +154,7 @@ flowchart TD
 │   └── banner.png        # Glowing tech banner
 ├── images/               # Project screenshots & decorative SVGs
 ├── profile.jpg           # Header avatar image
-└── muhammad_Asad_Resume.pdf  # Printable PDF resume asset
+└── Muhammad_Asad_Resume.pdf  # Printable PDF resume asset
 ```
 
 ---
